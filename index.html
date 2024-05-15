@@ -1,11 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Code2Img</title>
-</head>
-<body>
-    
-</body>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+      html,
+      body {
+        margin: 0;
+      }
+
+      html {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        min-height: 100%;
+        align-items: stretch;
+      }
+      body {
+        flex: 1;
+        margin: 0;
+      }
+
+      * {
+        color: white;
+        font-family: "Noto Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+        font-variation-settings: "wdth" 100;
+        font-weight: 600;
+      }
+
+      .code-block * {
+        font-family: "DM Mono", monospace !important;
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(34, 36, 48);
+        background-color: white;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .code-block {
+        box-sizing: border-box;
+        min-width: min(400px, 100%);
+        max-width: calc(100vw - 80px);
+        min-height: min(300px, calc(100vh - 100px));
+        max-height: calc(100vh - 150px);
+        resize: none;
+        padding: 24px;
+        border-radius: 16px;
+        border: solid rgb(60, 61, 64) 2px;
+        background-color: #24292e;
+        display: flex;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        overflow: scroll;
+      }
+
+      .code-block-screenshot {
+        min-width: none !important;
+        min-height: none !important;
+        max-width: none !important;
+        max-height: none !important;
+        overflow: visible !important;
+      }
+
+      .code-block::-webkit-scrollbar-corner {
+        background-color: transparent;
+      }
+      .code-block::-webkit-scrollbar {
+        width: 10px; /* Adjust width of the entire scrollbar */
+      }
+
+      .code-block::-webkit-scrollbar-track {
+        background: #24292e; /* Track background color */
+        border-radius: 10px;
+        margin: 10px;
+      }
+
+      .code-block::-webkit-scrollbar-thumb {
+        /* Thumb (draggable part) background color */
+        background: rgb(60, 61, 64);
+        border-radius: 5px; /* Rounded corners */
+      }
+
+      .code-block::-webkit-scrollbar-thumb:hover {
+        background: rgb(91, 93, 97);
+      }
+
+      .code-block > pre {
+        display: flex;
+        flex: 1;
+      }
+      .code-block > pre > code {
+        outline: none;
+        flex: 1;
+      }
+
+      .options {
+        display: flex;
+        gap: 8px;
+        height: 40px;
+      }
+
+      button {
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: none;
+        background-color: #24292e;
+        display: flex;
+        gap: 8px;
+        transition: transform 200ms ease-in-out;
+        border: #24292e solid 2px;
+        box-sizing: border-box;
+      }
+
+      button:hover {
+        cursor: pointer;
+        border: rgb(60, 61, 64) solid 2px;
+      }
+
+      .button-icon-container {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .button-icon {
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 15px;
+        height: 15px;
+        transition: all 200ms;
+      }
+
+      button:hover .button-icon {
+        transform: scale(1.1);
+      }
+
+      select {
+        appearance: none; /* Remove default appearance */
+        background-color: #24292e;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        text-align: center;
+      }
+
+      .copy-icon {
+        background-image: url("assets/fa-copy.svg");
+      }
+
+      .download-icon {
+        background-image: url("assets/fa-arrow-down.svg");
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="code-block" id="code-block"></div>
+    <div class="options">
+      <select id="language-selector">
+        <option value="js">JavaScript</option>
+        <option value="python">Python</option>
+        <option value="html">HTML</option>
+      </select>
+      <button id="copy-button">
+        Copy
+        <div class="button-icon-container">
+          <div class="copy-icon button-icon"></div>
+        </div>
+      </button>
+      <button id="download-button">
+        Download
+        <div class="button-icon-container">
+          <div class="download-icon button-icon"></div>
+        </div>
+      </button>
+    </div>
+  </body>
+  <script type="module">
+    // be sure to specify the exact version
+    import { codeToHtml } from "https://esm.sh/shiki@1.0.0";
+    // or
+    // import { codeToHtml } from 'https://esm.run/shiki@1.0.0'
+
+    async function formatCode() {
+      console.log("Hei");
+      const codeBlockWrapper = document.getElementById("code-block");
+      const content = codeBlockWrapper.textContent;
+      const lang = document.getElementById("language-selector").value;
+
+      codeBlockWrapper.innerHTML = await codeToHtml(content, {
+        lang,
+        theme: "github-dark",
+      });
+      const codeBlock = codeBlockWrapper.getElementsByTagName("code")[0];
+      codeBlock.contentEditable = true;
+
+      // Handle focus and input events
+      codeBlock.addEventListener("focus", () => {
+        if (codeBlock.textContent === "// Your code here") {
+          codeBlock.textContent = "";
+          codeBlock.style.color = ""; // Reset style
+        }
+      });
+
+      const addPlaceholder = () => {
+        if (codeBlock.textContent === "") {
+          codeBlock.textContent = "// Your code here";
+          codeBlock.style.color = "lightgray";
+        }
+      };
+      codeBlock.addEventListener("blur", addPlaceholder());
+      addPlaceholder();
+    }
+
+    async function onFormat() {
+      await formatCode();
+      addListeners();
+    }
+    function addListeners() {
+      const codeBlock = document
+        .getElementById("code-block")
+        .getElementsByTagName("pre")[0]
+        .getElementsByTagName("code")[0];
+      codeBlock.addEventListener("blur", onFormat);
+    }
+
+    async function elementToImageBlob(elementId) {
+      const element = document.getElementById(elementId);
+      if (!element) {
+        console.error(`Element with ID "${elementId}" not found.`);
+        return;
+      }
+
+      try {
+        const canvas = await html2canvas(element, { scale: 8 });
+        const blob = await new Promise((resolve) => canvas.toBlob(resolve));
+        return blob;
+      } catch (error) {
+        console.error("Error capturing element as image:", error);
+      }
+    }
+
+    async function copyElementAsImage(elementId) {
+      const blob = await elementToImageBlob(elementId);
+      try {
+        await navigator.clipboard.write([
+          new ClipboardItem({ "image/png": blob }),
+        ]);
+        console.log("Image copied to clipboard!");
+      } catch (error) {
+        console.log(blob);
+        console.error("Error writing to clipboard:", error);
+      }
+    }
+
+    async function downloadElementAsImage(elementId) {
+      const blob = await elementToImageBlob(elementId);
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "code.png";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    }
+
+    async function onCopy() {
+      const codeBlockWrapper = document.getElementById("code-block");
+      codeBlockWrapper.classList.add("code-block-screenshot");
+      await copyElementAsImage("code-block");
+      codeBlockWrapper.classList.remove("code-block-screenshot");
+    }
+
+    async function onDownload() {
+      const codeBlockWrapper = document.getElementById("code-block");
+      codeBlockWrapper.classList.add("code-block-screenshot");
+      await downloadElementAsImage("code-block");
+      codeBlockWrapper.classList.remove("code-block-screenshot");
+    }
+
+    async function onLoad() {
+      await formatCode();
+      addListeners();
+      document.getElementById("copy-button").addEventListener("click", onCopy);
+      document
+        .getElementById("download-button")
+        .addEventListener("click", onDownload);
+      document
+        .getElementById("language-selector")
+        .addEventListener("change", onFormat);
+    }
+
+    onLoad();
+  </script>
 </html>
