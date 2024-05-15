@@ -8,6 +8,19 @@
     <style>
       @import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 
+      :root {
+        --background-color: white;
+        --main-text: black;
+      }
+
+      /* Dark mode styles */
+      @media (prefers-color-scheme: dark) {
+        html {
+          --background-color: rgb(34, 36, 48) !important;
+          --main-text: white !important;
+        }
+      }
+
       html,
       body {
         margin: 0;
@@ -45,18 +58,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: rgb(34, 36, 48);
-        background-color: white;
+        background-color: var(--background-color);
         flex-direction: column;
         gap: 16px;
       }
 
       .code-block {
         box-sizing: border-box;
-        min-width: min(400px, 100%);
+        min-width: min(100vw - 40px, 400px, 100%);
         max-width: calc(100vw - 80px);
         min-height: min(300px, calc(100vh - 100px));
-        max-height: calc(100vh - 150px);
+        max-height: calc(100vh - 250px);
         resize: none;
         padding: 24px;
         border-radius: 16px;
@@ -121,13 +133,13 @@
         display: flex;
         gap: 8px;
         transition: transform 200ms ease-in-out;
-        border: #24292e solid 2px;
         box-sizing: border-box;
+        align-items: center;
       }
 
       button:hover {
         cursor: pointer;
-        border: rgb(60, 61, 64) solid 2px;
+        outline: rgb(60, 61, 64) solid 2px;
       }
 
       .button-icon-container {
@@ -159,6 +171,16 @@
         text-align: center;
       }
 
+      select:hover {
+        cursor: pointer;
+        /* border: rgb(60, 61, 64) solid 2px; */
+        outline: rgb(60, 61, 64) solid 2px;
+      }
+
+      select:focus {
+        outline: rgb(60, 61, 64) solid 2px;
+      }
+
       .copy-icon {
         background-image: url("assets/fa-copy.svg");
       }
@@ -166,10 +188,29 @@
       .download-icon {
         background-image: url("assets/fa-arrow-down.svg");
       }
+
+      .caption {
+        opacity: 0.6;
+        max-width: 400px;
+        margin-top: -20px;
+        margin-bottom: 20px;
+        text-align: center;
+        color: var(--main-text);
+      }
+
+      .title {
+        color: var(--main-text);
+        text-align: center;
+      }
     </style>
   </head>
 
   <body>
+    <h1 class="title">Quick Code Share 📋</h1>
+    <div class="caption">
+      Copy, paste, and create! Instantly beautify your code snippets with one
+      click. It's that easy!
+    </div>
     <div class="code-block" id="code-block"></div>
     <div class="options">
       <select id="language-selector">
