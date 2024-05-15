@@ -340,7 +340,11 @@
       }
 
       try {
-        const canvas = await html2canvas(element, { scale: 8 });
+        const canvas = await html2canvas(element, {
+          scale: 8,
+          backgroundColor: null,
+        });
+        canvas.getContext("2d").globalAlpha = 0;
         const blob = await new Promise((resolve) => canvas.toBlob(resolve));
         return blob;
       } catch (error) {
