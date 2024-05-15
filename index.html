@@ -290,9 +290,9 @@
     // import { codeToHtml } from 'https://esm.run/shiki@1.0.0'
 
     async function formatCode() {
-      console.log("Hei");
       const codeBlockWrapper = document.getElementById("code-block");
-      const content = codeBlockWrapper.textContent;
+      const content = codeBlockWrapper.innerText;
+      console.log(content);
       const lang = document.getElementById("language-selector").value;
 
       codeBlockWrapper.innerHTML = await codeToHtml(content, {
