@@ -318,6 +318,14 @@
       };
       codeBlock.addEventListener("blur", addPlaceholder());
       addPlaceholder();
+
+      // Ensure format free copy-paste
+      codeBlock.addEventListener("paste", (event) => {
+        event.preventDefault(); // Prevent default paste behavior
+        const text = event.clipboardData.getData("text/plain"); // Get plain text
+
+        document.execCommand("insertText", false, text); // Insert the plain text
+      });
     }
 
     async function onFormat() {
@@ -344,7 +352,6 @@
           scale: 8,
           backgroundColor: null,
         });
-        canvas.getContext("2d").globalAlpha = 0;
         const blob = await new Promise((resolve) => canvas.toBlob(resolve));
         return blob;
       } catch (error) {
