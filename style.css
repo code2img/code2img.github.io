@@ -1,0 +1,197 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --background-color: white;
+  --main-text: black;
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  html {
+    --background-color: rgb(34, 36, 48) !important;
+    --main-text: white !important;
+  }
+}
+
+html,
+body {
+  margin: 0;
+}
+
+html {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 100%;
+  align-items: stretch;
+}
+body {
+  flex: 1;
+  margin: 10px;
+}
+
+* {
+  color: white;
+  font-family: "Noto Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  font-weight: 600;
+}
+
+.code-block * {
+  font-family: "DM Mono", monospace !important;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-color);
+  flex-direction: column;
+  gap: 16px;
+}
+
+.code-block {
+  box-sizing: border-box;
+  min-width: min(100vw - 40px, 400px, 100%);
+  max-width: calc(100vw - 80px);
+  min-height: min(300px, calc(100vh - 100px));
+  max-height: calc(100vh - 250px);
+  resize: none;
+  padding: 24px;
+  border-radius: 16px;
+  border: solid rgb(60, 61, 64) 2px;
+  background-color: #24292e;
+  display: flex;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  overflow: scroll;
+  transition: all 200ms;
+}
+
+.code-block-screenshot {
+  min-width: 0px !important;
+  min-height: 0px !important;
+  max-width: none !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.code-block::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+.code-block::-webkit-scrollbar {
+  width: 10px; /* Adjust width of the entire scrollbar */
+}
+
+.code-block::-webkit-scrollbar-track {
+  background: #24292e; /* Track background color */
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.code-block::-webkit-scrollbar-thumb {
+  /* Thumb (draggable part) background color */
+  background: rgb(60, 61, 64);
+  border-radius: 5px; /* Rounded corners */
+}
+
+.code-block::-webkit-scrollbar-thumb:hover {
+  background: rgb(91, 93, 97);
+}
+
+.code-block > pre {
+  display: flex;
+  flex: 1;
+}
+.code-block > pre > code {
+  outline: none;
+  flex: 1;
+}
+
+.options {
+  display: flex;
+  gap: 8px;
+  height: 40px;
+}
+
+button {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: none;
+  background-color: #24292e;
+  display: flex;
+  gap: 8px;
+  transition: transform 200ms ease-in-out;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+button:hover {
+  cursor: pointer;
+  outline: rgb(60, 61, 64) solid 2px;
+}
+
+.button-icon-container {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-icon {
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 15px;
+  height: 15px;
+  transition: all 200ms;
+}
+
+button:hover .button-icon {
+  transform: scale(1.1);
+}
+
+select {
+  appearance: none; /* Remove default appearance */
+  background-color: #24292e;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  text-align: center;
+}
+
+select:hover {
+  cursor: pointer;
+  /* border: rgb(60, 61, 64) solid 2px; */
+  outline: rgb(60, 61, 64) solid 2px;
+}
+
+select:focus {
+  outline: rgb(60, 61, 64) solid 2px;
+}
+
+.copy-icon {
+  background-image: url("assets/fa-copy.svg");
+}
+
+.download-icon {
+  background-image: url("assets/fa-arrow-down.svg");
+}
+
+.caption {
+  opacity: 0.6;
+  max-width: 400px;
+  margin-top: -20px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--main-text);
+}
+
+.title {
+  color: var(--main-text);
+  text-align: center;
+}
