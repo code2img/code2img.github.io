@@ -9,14 +9,18 @@
       @import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 
       :root {
-        --background-color: white;
+        --background-color: radial-gradient(circle, #ffffff, #f2f2f2);
         --main-text: black;
       }
 
       /* Dark mode styles */
       @media (prefers-color-scheme: dark) {
         html {
-          --background-color: rgb(34, 36, 48) !important;
+          --background-color: radial-gradient(
+            circle,
+            rgb(34, 36, 48),
+            rgb(37, 39, 52)
+          ) !important;
           --main-text: white !important;
         }
       }
@@ -58,7 +62,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: var(--background-color);
+        background: var(--background-color);
         flex-direction: column;
         gap: 16px;
       }
