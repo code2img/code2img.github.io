@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- theme-color will be updated by JS -->
+    <meta name="theme-color" />
+
     <title>Code2Img</title>
     <link rel="icon" href="/assets/clipboard.svg" type="image/svg+xml" />
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -400,7 +403,26 @@
       codeBlockWrapper.classList.remove("code-block-screenshot");
     }
 
+    function addBrowserThemeColor() {
+      // Get the meta tag and the computed style
+      const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+      const rootStyle = getComputedStyle(document.documentElement);
+
+      // Function to update the theme color
+      function updateThemeColor() {
+        const themeColor = rootStyle.getPropertyValue("--background-color");
+        themeColorMeta.content = themeColor;
+      }
+
+      // Initial update and update on theme change
+      updateThemeColor();
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", updateThemeColor);
+    }
+
     async function onLoad() {
+      addBrowserThemeColor();
       await formatCode();
       addListeners();
       document.getElementById("copy-button").addEventListener("click", onCopy);
