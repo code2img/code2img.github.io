@@ -59,7 +59,7 @@ async function elementToImageBlob(elementId) {
   }
 
   try {
-    const scaleFavtor = parseInt(document.getElementById("scale-factor").value);
+    const scaleFactor = parseInt(document.getElementById("scale-factor").value);
     const canvas = await html2canvas(element, {
       scale: scaleFactor,
       backgroundColor: null,
