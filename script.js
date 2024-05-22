@@ -1,5 +1,7 @@
 import { codeToHtml } from "/lib/shiki@1.5.2.js";
 
+let scaleFactor = 8;
+
 async function formatCode() {
   const codeBlockWrapper = document.getElementById("code-block");
   const content = codeBlockWrapper.innerText;
@@ -60,7 +62,7 @@ async function elementToImageBlob(elementId) {
 
   try {
     const canvas = await html2canvas(element, {
-      scale: 8,
+      scale: scaleFactor,
       backgroundColor: null,
     });
     const blob = await new Promise((resolve) => canvas.toBlob(resolve));
