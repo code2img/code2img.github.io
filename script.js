@@ -62,7 +62,7 @@ async function elementToImageBlob(elementId) {
     const scaleFactor = parseInt(document.getElementById("scale-factor").value);
     const canvas = await html2canvas(element, {
       scale: scaleFactor,
-      backgroundColor: null,
+      backgroundColor: "transparent",
     });
     const blob = await new Promise((resolve) => canvas.toBlob(resolve));
     return blob;
